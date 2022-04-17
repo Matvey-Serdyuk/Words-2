@@ -1,50 +1,50 @@
 var letterSounds = {
     "А": "а.m4a",
-    "Б": "#",
-    "В": "#",
-    "Г": "#", 
-    "Д": "#",
-    "Е": "#",
-    "Ё": "#",
-    "Ж": "#",
-    "З": "#",
+    "Б": "б.m4a",
+    "В": "в.m4a",
+    "Г": "г.m4a", 
+    "Д": "д.m4a",
+    "Е": "е.m4a",
+    "Ё": "ё.m4a",
+    "Ж": "ж.m4a",
+    "З": "з.m4a",
     "И": "и.m4a",
-    "Й": "#",
+    "Й": "й.m4a",
     "К": "к.m4a",
     "Л": "л.m4a",
     "М": "м.m4a",
-    "Н": "#",
-    "О": "#",
+    "Н": "н.m4a",
+    "О": "о.m4a",
     "П": "п.m4a",
-    "Р": "#",
+    "Р": "р.m4a",
     "С": "с.m4a",
     "Т": "т.m4a",
     "У": "у.m4a",
-    "Ф": "#",
-    "Х": "#",
-    "Ц": "#",
-    "Ч": "#",
+    "Ф": "ф.m4a",
+    "Х": "х.m4a",
+    "Ц": "ц.m4a",
+    "Ч": "ч.m4a",
     "Ш": "ш.m4a",
-    "Щ": "#",
+    "Щ": "щ.m4a",
     "Ъ": "#",
-    "Ы": "#",
+    "Ы": "ы.m4a",
     "Ь": "#",
-    "Э": "#",
-    "Ю": "#",
-    "Я": "#"
+    "Э": "э.m4a",
+    "Ю": "ю.m4a",
+    "Я": "я.m4a"
 };
 
 var fileLettersSound = "sounds/letters";
 
 class Game {
-    levels = [new Level("АНАНАС", "images/ananas.jpg", "#"), new Level("ЯБЛОКО", "images/apple.png", "#"),
-    new Level("ЛИМОН", "images/lemon.png", "#"), new Level("АПЕЛЬСИН", "images/orange.png", "#"),
-    new Level("КИВИ", "images/kivy.png", "#"), new Level("БАНАН", "images/banana.png", "#")];
+    levels = [new Level("КИВИ", "images/kivy.png", "sounds/qiwi.m4a"), new Level("АНАНАС", "images/ananas.jpg", "sounds/ananas.m4a"),
+    new Level("ЯБЛОКО", "images/apple.png", "sounds/apple.m4a"), new Level("ЛИМОН", "images/lemon.png", "sounds/lemon.m4a"),
+     new Level("АПЕЛЬСИН", "images/orange.png", "sounds/orange.m4a"), new Level("БАНАН", "images/banana.png", "sounds/banana.m4a")];
 
 
     curLevel = 0;
     pause = false;
-    a = false;
+    isRepeat = false;
 
     constructor() {
         this.levels[this.curLevel].start();
@@ -52,11 +52,25 @@ class Game {
 
     builded() {
         this.pause = true;
-        sound("sounds/win.mp3");
-        this.next();
+        let img = document.createElement("img");
+        img.classList.add("img");
+        img.src = "images/arrow.jpg";
+        img.style.maxHeight = "35vh";
+        this.levels[this.curLevel].letters.appendChild(img);
+
+        var a = true;
+
+        this.levels[this.curLevel].letters.onclick = function() {
+            if (a) {
+                a = false;
+            } else {
+                game.next();
+            }
+        };
     }
 
     next() {
+        sound("sounds/win.mp3");
         this.levels[this.curLevel].letters.onclick = function() {};
 
         if (this.curLevel + 1 == this.levels.length) {
@@ -69,15 +83,21 @@ class Game {
             while (this.levels[this.curLevel].letters.firstChild) {
                 this.levels[this.curLevel].letters.removeChild(this.levels[this.curLevel].letters.firstChild);
             }
-            
-            this.curLevel++;
+
+            if (!this.isRepeat) {
+                this.curLevel++;
+            } else {
+                this.isRepeat = false;
+            }
             this.levels[this.curLevel].start();
         }
         this.pause = false;
     }
 
     end() {
-        alert("Все")
+        this.isRepeat = true;
+        this.curLevel = 0;
+        this.next()
     }
 }
 
@@ -141,7 +161,9 @@ class Level {
                     resizeAll(output, outputArray);
 
                     letters.removeChild(event.currentTarget);
-                    event.currentTarget.onclick = function() {};
+                    event.currentTarget.onclick = function() {
+                        sound(fileLettersSound + "/" + letterSounds[event.currentTarget.innerText]);
+                    };
                     output.appendChild(event.currentTarget);
 
                     if (letters.children.length == 0) {
@@ -149,7 +171,7 @@ class Level {
                     } else {
                         resizeAll(letters, lettersArray);
                     }
-                    // sound(fileLettersSound + "/" + letterSounds[event.currentTarget.innerText]);
+                    sound(fileLettersSound + "/" + letterSounds[event.currentTarget.innerText]);
                 } else {
                     sound("sounds/lose.mp3");
                 }
