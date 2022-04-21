@@ -37,9 +37,16 @@ var letterSounds = {
 var fileLettersSound = "sounds/letters";
 
 class Game {
-    levels = [new Level("КИВИ", "images/kivy.png", "sounds/qiwi.m4a"), new Level("АНАНАС", "images/ananas.jpg", "sounds/ananas.m4a"),
-    new Level("ЯБЛОКО", "images/apple.png", "sounds/apple.m4a"), new Level("ЛИМОН", "images/lemon.png", "sounds/lemon.m4a"),
-     new Level("АПЕЛЬСИН", "images/orange.png", "sounds/orange.m4a"), new Level("БАНАН", "images/banana.png", "sounds/banana.m4a")];
+    levels = [
+        new Level("ФРУКТЫ", "images/fruits.png", "#"),
+        new Level("КИВИ", "images/kivy.png", "sounds/qiwi.m4a"), new Level("АНАНАС", "images/ananas.jpg", "sounds/ananas.m4a"),
+        new Level("ЯБЛОКО", "images/apple.png", "sounds/apple.m4a"), new Level("ЛИМОН", "images/lemon.png", "sounds/lemon.m4a"),
+        new Level("АПЕЛЬСИН", "images/orange.png", "sounds/orange.m4a"), new Level("БАНАН", "images/banana.png", "sounds/banana.m4a"),
+    
+        new Level("ОВОЩИ", "images/vegetables.png", "#"),
+        new Level("ЛУК", "images/onion.png", "#"), new Level("ОГУРЕЦ", "images/pickle.png", "#"), new Level("ПОМИДОР", "images/tomato.png", "#"), 
+        new Level("КАРТОШКА", "images/potato.png", "#"), new Level("МОРКОВЬ", "images/carrot.png", "#")
+    ];
 
 
     curLevel = 0;
